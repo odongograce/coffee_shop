@@ -4,11 +4,8 @@ class Customer:
     all_customers = []
 
     def __init__(self, name):
-        if len(name) < 1 or len(name) > 15:
-            print("Error: name must be 1-15 characters.")
-        else:
-            self.name = name
-            Customer.all_customers.append(self)
+        self.name = name
+               
 
     def orders(self):
         result = []
