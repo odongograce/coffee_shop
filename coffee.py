@@ -4,11 +4,8 @@ class Coffee:
     all_coffees = []
 
     def __init__(self, name):
-        if len(name) < 3:
-            print("Error: coffee name must be at least 3 characters.")
-        else:
-            self.name = name
-            Coffee.all_coffees.append(self)
+        self.name = name
+    
 
     def orders(self):
         result = []
