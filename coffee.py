@@ -1,25 +1,22 @@
 from order import Order
 
 class Coffee:
-    all_coffees = []
+    all = []
 
     def __init__(self, name):
+        if not isinstance(name, str):
+            raise ValueError("Name must be a string")
+        if len(name) < 3:
+            raise ValueError("Coffee name must be at least 3 characters")
+
         self.name = name
-    
+        Coffee.all.append(self)
 
     def orders(self):
-        result = []
-        for order in Order.all_orders:
-            if order.coffee == self:
-                result.append(order)
-        return result
+        return [order for order in Order.all if order.coffee == self]
 
     def customers(self):
-        result = []
-        for order in self.orders():
-            if order.customer not in result:
-                result.append(order.customer)
-        return result
+        return list(set([order.customer for order in self.orders()]))
 
     def num_orders(self):
         return len(self.orders())
@@ -28,10 +25,6 @@ class Coffee:
         orders = self.orders()
         if len(orders) == 0:
             return 0
-        total = 0
-        for order in orders:
-            total += order.price
-        return total / len(orders)
-    def display(self):
-        return f"Coffee({self.name})"
 
+        total = sum(order.price for order in orders)
+        return total / len(orders)

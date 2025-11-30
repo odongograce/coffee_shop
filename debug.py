@@ -1,22 +1,16 @@
 from customer import Customer
 from coffee import Coffee
-from order import Order
 
-c1 = Customer("Alice")
-c2 = Customer("Bob")
+alice = Customer("Alice")
+bob = Customer("Bob")
 
+latte = Coffee("Latte")
+espresso = Coffee("Espresso")
 
-co1 = Coffee("Latte")
-co2 = Coffee("Espresso")
+alice.create_order(latte, 4.5)
+alice.create_order(latte, 3.5)
+bob.create_order(latte, 6.0)
 
-
-o1 = Order(c1, co1, 3)
-o2 = Order(c1, co2, 4)
-o3 = Order(c2, co1, 5)
-
-
-print(c1.coffees())
-print(co1.customers())
-print(co1.num_orders())
-print(co1.average_price())
-print(Customer.most_aficionado(co1).name)
+print("Latte orders:", latte.num_orders())
+print("Latte avg price:", latte.average_price())
+print("Most aficionado:", Customer.most_aficionado(latte).name)

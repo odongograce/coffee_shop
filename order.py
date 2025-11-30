@@ -1,18 +1,14 @@
 class Order:
-    all_orders = []
+    all = []
 
     def __init__(self, customer, coffee, price):
+        if not isinstance(price, (int, float)):
+            raise ValueError("Price must be a number")
+        if price < 1.0 or price > 10.0:
+            raise ValueError("Price must be between 1.0 and 10.0")
+
         self.customer = customer
         self.coffee = coffee
+        self.price = float(price)
 
-    
-
-    def get_customer(self):
-        return self.customer
-
-    def get_coffee(self):
-        return self.coffee
-
-    def display(self):
-        return f"Order(customer={self.customer.name}, coffee={self.coffee.name}, price={self.price})"
-
+        Order.all.append(self)

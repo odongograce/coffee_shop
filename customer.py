@@ -1,39 +1,37 @@
 from order import Order
 
 class Customer:
-    all_customers = []
+    all = []
 
     def __init__(self, name):
+        if not isinstance(name, str):
+            raise ValueError("Name must be a string")
+        if len(name) < 1 or len(name) > 15:
+            raise ValueError("Name must be between 1 and 15 characters")
+
         self.name = name
-               
+        Customer.all.append(self)
 
     def orders(self):
-        result = []
-        for order in Order.all_orders:
-            if order.customer == self:
-                result.append(order)
-        return result
+        return [order for order in Order.all if order.customer == self]
 
     def coffees(self):
-        result = []
-        for order in self.orders():
-            if order.coffee not in result:
-                result.append(order.coffee)
-        return result
+        return list(set([order.coffee for order in self.orders()]))
 
     def create_order(self, coffee, price):
         return Order(self, coffee, price)
 
     @classmethod
     def most_aficionado(cls, coffee):
-        max_total = 0
-        top_customer = None
-        for customer in cls.all_customers:
-            total = 0
-            for order in customer.orders():
-                if order.coffee == coffee:
-                    total += order.price
-            if total > max_total:
-                max_total = total
-                top_customer = customer
-        return top_customer
+        spending = {}
+
+        for order in Order.all:
+            if order.coffee == coffee:
+                if order.customer not in spending:
+                    spending[order.customer] = 0
+                spending[order.customer] += order.price
+
+        if len(spending) == 0:
+            return None
+
+        return max(spending, key=spending.get)
